@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/yang/work/test/c++/tcp_test/build",
+  "command": "/bin/g++-9    -g   -o CMakeFiles/tcp_server.dir/main.cpp.o -c /home/yang/work/test/c++/tcp_test/main.cpp",
+  "file": "/home/yang/work/test/c++/tcp_test/main.cpp"
+},
+{
+  "directory": "/home/yang/work/test/c++/tcp_test/build",
+  "command": "/bin/g++-9    -g   -o CMakeFiles/tcp_server.dir/server.cpp.o -c /home/yang/work/test/c++/tcp_test/server.cpp",
+  "file": "/home/yang/work/test/c++/tcp_test/server.cpp"
+}
+]
