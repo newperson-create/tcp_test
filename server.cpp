@@ -1,19 +1,24 @@
 #include "server.hpp"
 #include <algorithm>
 #include "protocol.hpp"
+#include "servercommon.hpp"
+#include "messagehandle.hpp"
 
 Server::Server() : m_sock(INVALID_SOCKET), last_pos(0)
 {
     memset(msgbuff, 0, sizeof(msgbuff));
+
+    m_msg_handle = new MessageHandle;
 }
 
 Server::~Server()
 {
     this->CloseSocket();
 
-#ifdef _WIN32
-    WSACleanup();
-#endif
+    if(nullptr != m_msg_handle)
+    {
+        delete m_msg_handle;
+    }
 }
 
 
@@ -67,7 +72,7 @@ int Server::Bind(const char* ip, int port)
     }
 
 #ifdef _WIN32
-    sin.sin_addr.S_un.S_addr = tmp_ip;   
+    _sin.sin_addr.S_un.S_addr = tmp_ip;   
 #else
     _sin.sin_addr.s_addr = tmp_ip;  
 #endif
@@ -148,13 +153,11 @@ bool  Server::Run()
         {
             // 删除退出的socket
             set_it = m_client_set.erase(set_it);
-            
         }
         else
         {
             ++set_it;
         }
-        
     }
 
     return true;
@@ -170,9 +173,21 @@ int Server::MsgHandler(SOCKET sock)
         memcpy(msgbuff + last_pos, buff, len);
         last_pos += len;
 
-        while( last_pos>= sizeof(MessageHeader))
+        while( last_pos>= sizeof(Protocol::MessageHeader))
         {
-            
+            Protocol::MessageHeader* header = (Protocol::MessageHeader*)msgbuff;
+            if(last_pos < header->msg_length)
+            {
+                break;
+            }
+
+            m_msg_handle->HandleMessage(msgbuff);
+
+            // 移动缓存数据
+            int len = last_pos - header->msg_length;
+            memcpy(msgbuff, msgbuff + header->msg_length, len);
+            last_pos = len;
+
         }
     }
 
@@ -185,6 +200,7 @@ void Server::CloseSocket()
     {
 #ifdef _WIN32
         closesocket(m_sock);
+        WSACleanup();
 #else
         close(m_sock);
 #endif

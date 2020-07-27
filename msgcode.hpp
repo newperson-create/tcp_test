@@ -3,7 +3,7 @@
 
 #include "protocol.hpp"
 
-namespace{
+namespace Protocol{
 
 class Test
 {

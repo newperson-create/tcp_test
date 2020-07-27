@@ -1,4 +1,5 @@
 #include "server.hpp"
+#include "servercommon.hpp"
 
 int main(int, char**) 
 {

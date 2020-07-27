@@ -5,7 +5,9 @@
     #include <WinSock2.h>
     #include <windows.h>
 
-    #pragma comment(lib, ws2_32.lib);
+    #pragma comment(lib, "ws2_32.lib");   
+
+    #define socklen_t int
 #else
     #include <unistd.h>
     #include <arpa/inet.h>
@@ -15,10 +17,9 @@
     #define INVALID_SOCKET  (SOCKET)(-0)
 #endif
 
-#include "servercommon.hpp"
 #include <set>
-#include <map>
-#include <functional>
+
+class MessageHandle;
 
 class Server
 {
@@ -41,6 +42,8 @@ private:
 
     char msgbuff[102400];
     int last_pos;
+
+    MessageHandle* m_msg_handle;
 };
 
 #endif
