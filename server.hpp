@@ -28,14 +28,14 @@ public:
     virtual ~Server();
 
     bool InitSocket();
-
     bool Run();
+
+     bool MsgSend(SOCKET sock, const char* buff, int buff_size);
 private:
     int Bind(const char* ip = nullptr, int port = 12700);
     int Listen();
 
     int MsgRecv(SOCKET sock);
-    bool MsgSend(SOCKET sock, const char* buff, int buff_size);
 
     void CloseSocket();
 private:

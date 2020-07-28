@@ -1,6 +1,7 @@
 #include "messagehandle.hpp"
 #include "servercommon.hpp"
 #include "msgcode.hpp"
+#include "engineadapter.hpp"
 
 void MessageHandle::OnTest(SOCKET sock, void* msg)
 {
@@ -15,5 +16,5 @@ void MessageHandle::OnTest(SOCKET sock, void* msg)
 	t.c = 3000;
 	t.header.msg_length = sizeof(Protocol::Test);
 
-	send(sock, (const char*)&t, sizeof(Protocol::Test), 0);
+	EngineAdapter::Instance().Send(sock, (const char*)&t, sizeof(Protocol::Test));
 }
