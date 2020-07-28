@@ -5,8 +5,6 @@
 #include <time.h>
 #include <cstring>
 
-static const int MAX_MSG_TYPE = static_cast<int>(USHRT_MAX + 1);
-
 #define MYTIMER MyTimer::Instance()
 
 class MyTimer

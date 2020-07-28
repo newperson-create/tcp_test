@@ -5,13 +5,20 @@
 
 namespace Protocol{
 
+    enum PROTOCOL_MSG_TYPE
+    {
+        MSG_TEST = 0,
+
+        MSG_TYPE_END,
+    };
+
 class Test
 {
 public:
-    MessageHeader header = 9;
+    MessageHeader header = MSG_TEST;
 
     short a = 0;
-    short c = 1;
+    short c = 0;
 };
 
 }

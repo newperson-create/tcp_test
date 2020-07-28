@@ -187,7 +187,6 @@ int Server::MsgHandler(SOCKET sock)
             int len = last_pos - header->msg_length;
             memcpy(msgbuff, msgbuff + header->msg_length, len);
             last_pos = len;
-
         }
     }
 
@@ -200,9 +199,13 @@ void Server::CloseSocket()
     {
 #ifdef _WIN32
         closesocket(m_sock);
-        WSACleanup();
 #else
         close(m_sock);
+        m_sock = INVALID_SOCKET;
 #endif
     }
+
+#ifdef _WIN32
+        WSACleanup();
+#endif
 }

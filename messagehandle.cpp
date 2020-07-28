@@ -2,13 +2,12 @@
 #include "protocol.hpp"
 #include "servercommon.hpp"
 #include "msgcode.hpp"
-#include "messagedealmethod.hpp"
 
 MessageHandle::MessageHandle()
 {
     memset(m_msg_handle_list, 0, sizeof(m_msg_handle_list));
     
-    m_msg_handle_list[9] = HandleItem(&MessageDealMethod::OnTest, sizeof(Protocol::Test));
+    m_msg_handle_list[Protocol::MSG_TEST] = HandleItem(&MessageHandle::OnTest, sizeof(Protocol::Test));
 }
 
 void MessageHandle::HandleMessage(void* msg)
