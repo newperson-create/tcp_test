@@ -35,6 +35,8 @@ private:
     int Listen();
 
     int MsgRecv(SOCKET sock);
+    bool MsgSend(SOCKET sock, const char* buff, int buff_size);
+
     void CloseSocket();
 private:
     SOCKET m_sock;

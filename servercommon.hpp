@@ -49,8 +49,8 @@ private:
 };
 
 #define NONE            "\033[m"
-#define GREEN           "\033[0;32m"
-#define LIGHT_RED       "\033[1;31m"
+#define GREEN           "\033[0;32;32m"
+#define LIGHT_RED       "\033[1;32;31m"
 
 #define DEBUG_LOG(format, ...) \
     printf(GREEN"[%s] " format NONE"\n", MYTIMER.GetTimeFormat(), ##__VA_ARGS__); 

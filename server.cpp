@@ -169,7 +169,7 @@ int Server::MsgRecv(SOCKET sock)
     int len = recv(sock, buff, sizeof(buff), 0);
     if(len > 0)
     {
-        // 处理粘包
+        // 处理粘包、黏包
         memcpy(msgbuff + last_pos, buff, len);
         last_pos += len;
 
@@ -195,6 +195,21 @@ int Server::MsgRecv(SOCKET sock)
 	}
 
     return 0;
+}
+
+bool Server::MsgSend(SOCKET sock, const char* buff, int buff_size)
+{
+    if(nullptr == buff || buff_size < sizeof(Protocol::MessageHeader))
+    {
+        return false;
+    }
+
+    Protocol::MessageHeader* header = (Protocol::MessageHeader*)buff;
+    header->msg_length = buff_size;
+
+    send(sock, buff, buff_size, 0);
+
+    return true;
 }
 
 void Server::CloseSocket()
