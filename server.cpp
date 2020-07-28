@@ -102,7 +102,7 @@ int Server::Listen()
     return 0;
 }
 
-bool  Server::Run()
+bool Server::Run()
 {
     fd_set fd_read;
     fd_set fd_write;
@@ -149,7 +149,7 @@ bool  Server::Run()
 
     for(auto set_it = m_client_set.begin(); set_it != m_client_set.end();)
     {
-        if(-1 == this->MsgHandler(*set_it))
+        if(-1 == this->MsgRecv(*set_it))
         {
             // 删除退出的socket
             set_it = m_client_set.erase(set_it);
@@ -163,7 +163,7 @@ bool  Server::Run()
     return true;
 }
 
-int Server::MsgHandler(SOCKET sock)
+int Server::MsgRecv(SOCKET sock)
 {
     char buff[10240]{};
     int len = recv(sock, buff, sizeof(buff), 0);
@@ -181,7 +181,7 @@ int Server::MsgHandler(SOCKET sock)
                 break;
             }
 
-            m_msg_handle->HandleMessage(msgbuff);
+            m_msg_handle->HandleMessage(sock, msgbuff);
 
             // 移动缓存数据
             int len = last_pos - header->msg_length;
@@ -189,6 +189,10 @@ int Server::MsgHandler(SOCKET sock)
             last_pos = len;
         }
     }
+	else
+	{
+		return -1;
+	}
 
     return 0;
 }

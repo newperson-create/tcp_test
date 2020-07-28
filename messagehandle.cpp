@@ -10,7 +10,7 @@ MessageHandle::MessageHandle()
     m_msg_handle_list[Protocol::MSG_TEST] = HandleItem(&MessageHandle::OnTest, sizeof(Protocol::Test));
 }
 
-void MessageHandle::HandleMessage(void* msg)
+void MessageHandle::HandleMessage(SOCKET sock, void* msg)
 {
     Protocol::MessageHeader* header = (Protocol::MessageHeader*)msg;
     if(header->msg_type < 0 || header->msg_type >= MAX_MSG_TYPE)
@@ -35,5 +35,5 @@ void MessageHandle::HandleMessage(void* msg)
     }
 
     // 调用协议处理函数
-    (this->*m_msg_handle_list[msg_type].func)(msg);
+    (this->*m_msg_handle_list[msg_type].func)(sock, msg);
 }

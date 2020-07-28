@@ -2,11 +2,18 @@
 #include "servercommon.hpp"
 #include "msgcode.hpp"
 
-void MessageHandle::OnTest(void* msg)
+void MessageHandle::OnTest(SOCKET sock, void* msg)
 {
     if(nullptr == msg) return;
 
     Protocol::Test* info = (Protocol::Test*)msg;
 
     DEBUG_LOG("a=%hd,b=%hd", info->a, info->c);
+
+	Protocol::Test t;
+	t.a = 2000;
+	t.c = 3000;
+	t.header.msg_length = sizeof(Protocol::Test);
+
+	send(sock, (const char*)&t, sizeof(Protocol::Test), 0);
 }

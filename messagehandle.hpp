@@ -2,6 +2,7 @@
 #define __MESSAGE_HANDLE_HPP__
 
 #include <climits>
+#include "server.hpp"
 
 static const int MAX_MSG_TYPE = static_cast<int>(USHRT_MAX + 1);
 
@@ -10,9 +11,9 @@ class MessageHandle
 public:
     MessageHandle();
 
-    void HandleMessage(void* msg);
+    void HandleMessage(SOCKET sock, void* msg);
 protected:
-    typedef void (MessageHandle::*HandleFunc)(void* msg);
+    typedef void (MessageHandle::*HandleFunc)(SOCKET sock, void* msg);
 
     struct HandleItem
     {
@@ -26,7 +27,7 @@ protected:
     HandleItem m_msg_handle_list[MAX_MSG_TYPE];
 
 public:
-    void OnTest(void* msg);
+    void OnTest(SOCKET sock, void* msg);
 };
 
 #endif

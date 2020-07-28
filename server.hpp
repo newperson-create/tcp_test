@@ -5,7 +5,7 @@
     #include <WinSock2.h>
     #include <windows.h>
 
-    #pragma comment(lib, "ws2_32.lib");   
+    #pragma comment(lib, "ws2_32.lib")   
 
     #define socklen_t int
 #else
@@ -34,7 +34,7 @@ private:
     int Bind(const char* ip = nullptr, int port = 12700);
     int Listen();
 
-    int MsgHandler(SOCKET sock);
+    int MsgRecv(SOCKET sock);
     void CloseSocket();
 private:
     SOCKET m_sock;
